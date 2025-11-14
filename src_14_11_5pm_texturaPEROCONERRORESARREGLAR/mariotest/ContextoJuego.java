@@ -1,0 +1,103 @@
+package mariotest;
+
+import SistemaDeNiveles.GestorNiveles;
+import SistemaDeSoporte.Handler;
+import SistemaDeSoporte.Teclas;
+import Entidades.Player;
+import SistemaGFX.ResourceManager;
+
+/**
+ * Contexto del Juego - Contenedor inmutable de componentes
+ * Responsabilidad: Proveer acceso centralizado a todos los componentes
+ * 
+ * Principio: DEPENDENCY INJECTION
+ * 
+ * @author LENOVO
+ */
+public class ContextoJuego {
+    
+    // Componentes del juego (inmutables)
+    private final ResourceManager resourceManager;
+    //private final Texturas texturas;
+    private final Handler handler;
+    private final GestorEstados gestorEstados;
+    private final GestorNiveles gestorNiveles;
+    private final Teclas teclas;
+    private final Player jugador;
+    
+    /**
+     * Constructor (solo accesible por JuegoBuilder)
+     */
+    ContextoJuego(
+        ResourceManager resourceManager,
+        //Texturas texturas,
+        Handler handler,
+        GestorEstados gestorEstados,
+        GestorNiveles gestorNiveles,
+        Teclas teclas,
+        Player jugador
+    ) {
+        this.resourceManager = resourceManager;
+       // this.texturas = texturas;
+        this.handler = handler;
+        this.gestorEstados = gestorEstados;
+        this.gestorNiveles = gestorNiveles;
+        this.teclas = teclas;
+        this.jugador = jugador;
+    }
+    
+    // ==================== GETTERS (solo lectura) ====================
+    public ResourceManager getResourceManager() {
+        return resourceManager;
+    }
+    /*
+    public Texturas getTexturas() {
+        return texturas;
+    }
+    */
+    public Handler getHandler() {
+        return handler;
+    }
+    
+    public GestorEstados getGestorEstados() {
+        return gestorEstados;
+    }
+    
+    public GestorNiveles getGestorNiveles() {
+        return gestorNiveles;
+    }
+    
+    public Teclas getTeclas() {
+        return teclas;
+    }
+    
+    public Player getJugador() {
+        return jugador;
+    }
+    
+    /**
+     * Información de debug
+     */
+    public String getInfo() {
+        return String.format(
+            "ContextoJuego [Texturas: %s, Handler: %s objetos, Jugador: (%.0f, %.0f)]",
+            //texturas != null ? "✓" : "✗",
+            resourceManager.getInfo(),
+            handler != null ? handler.getGameObjs().size() : 0,
+            jugador != null ? jugador.getX() : 0,
+            jugador != null ? jugador.getY() : 0
+        );
+    }
+    
+    /**
+     * Valida que todos los componentes estén inicializados
+     */
+    public boolean esValido() {
+        return resourceManager != null 
+            && handler != null 
+            && gestorEstados != null 
+            && gestorNiveles != null 
+            && teclas != null 
+            && jugador != null;
+    }
+}
